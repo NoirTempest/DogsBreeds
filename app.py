@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, url_for
-from keras.preprocessing.image import load_img, img_to_array
-from keras.models import load_model
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.models import load_model
 import numpy as np
 import os
+
 app = Flask(__name__)
 
 # Load your trained model
@@ -14,7 +15,7 @@ os.makedirs("./static/images", exist_ok=True)
 
 # Dog breed labels
 dogs_labels = {
-    0: "toy_terrier",
+     0: "toy_terrier",
     1: "vizsla",
     2: "tibetan_terrier",
     3: "whippet",
@@ -129,7 +130,7 @@ def predict():
 
     # Make a prediction using your trained model
     yhat = model.predict(image)
-    predicted_class = yhat.argmax(axis=-1)[0]
+    predicted_class = np.argmax(yhat)
     confidence = np.max(yhat) * 100  # Confidence percentage
 
     # Get the predicted label from the dictionary
@@ -139,7 +140,6 @@ def predict():
     image_url = url_for('static', filename='images/' + imagefile.filename)
 
     return render_template('index.html', prediction=predicted_genus, confidence=confidence, image_path=image_url)
-
 
 if __name__ == '__main__':
     # Run the Flask app
