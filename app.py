@@ -140,6 +140,4 @@ def predict():
 
     return render_template('index.html', prediction=predicted_genus, confidence=confidence, image_path=image_url)
 
-if __name__ == '__main__':
-    # Run the Flask app
-    app.run(host='0.0.0.0', port=3000)
+
